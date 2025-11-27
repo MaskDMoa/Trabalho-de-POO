@@ -93,7 +93,7 @@ public class LojaSQL {
     }
 
     public static void listarLojas() {
-        String sql = "SELECT * FROM lojas";
+        String sql = "SELECT * FROM loja";
         try (Connection conn = Conexao.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

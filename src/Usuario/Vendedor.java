@@ -24,7 +24,7 @@ public class Vendedor extends Usuario implements InterUsuario {
         Scanner input = new Scanner(System.in);
 
         if (idLoja == 0) {
-            System.out.println("Você ainda não possui uma loja!");
+            System.out.println("Você ainda não possui uma loja");
             System.out.print("Deseja criar agora? (S/N): ");
             String resp = input.nextLine().toUpperCase();
 

@@ -16,6 +16,19 @@ public class Item {
             this.idLoja = idLoja;
         }
 
+    public Item(int idItem, String nome, String descricao, int quantidade, double preco, int idLoja) {
+        this.idItem = idItem;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.preco = preco;
+        this.idLoja = idLoja;
+    }
+
+    public int getIdItem() {
+        return idItem;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -34,5 +47,9 @@ public class Item {
 
     public int getIdLoja() {
         return idLoja;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 }

@@ -26,8 +26,12 @@ public class UsuarioSQL {
             return rowsInserted > 0;
 
         } catch (SQLException e) {
-            System.out.println("Erro ao criar usuário!");
-            e.printStackTrace();
+            if (e.getErrorCode() == 1062) {
+                System.out.println("Erro: Este email já está cadastrado! Tente outro.");
+            } else {
+                System.out.println("Erro ao criar usuário: " + e.getMessage());
+            }
+
             return false;
         }
     }

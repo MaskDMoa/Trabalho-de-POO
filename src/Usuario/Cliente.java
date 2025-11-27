@@ -1,6 +1,7 @@
 package Usuario;
 
 import Interfaces.InterUsuario;
+import Loja.Carrinho;
 import SQL_.LojaSQL;
 import SQL_.ItemSQL;
 import java.util.Scanner;
@@ -17,10 +18,6 @@ public class Cliente extends Usuario implements InterUsuario {
     public boolean isVendedor() {
         return false;
     }
-
-    /*
-    O MENU CLIENTE AINDA NÃO ESTA FUNCIONANDO, IREI ARRUMAR DEPOIS
-     */
 
     @Override
     public void mostrarMenu() {
@@ -74,23 +71,22 @@ public class Cliente extends Usuario implements InterUsuario {
             switch (opcao) {
                 case 1:
                     System.out.print("ID do item: ");
-                    carrinho.adicionar(input.nextInt());
+                    Carrinho.adicionar(input.nextInt());
                     break;
                 case 2:
                     System.out.print("ID do item: ");
-                    carrinho.remover(input.nextInt());
+                    Carrinho.remover(input.nextInt());
                     break;
                 case 3:
-                    carrinho.listar();
+                    Carrinho.listar();
                     break;
                 case 4:
-                    ItemSQL.finalizarCompra(carrinho.getItens());
-                    carrinho.limpar();
+
                     return;
                 case 0:
                     return;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("Opção inválida");
             }
         }
     }

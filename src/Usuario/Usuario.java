@@ -23,14 +23,5 @@ public abstract class Usuario implements InterUsuario {
         return nome;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
     public abstract boolean isVendedor();
-
 }
