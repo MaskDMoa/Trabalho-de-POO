@@ -97,6 +97,26 @@ public class Vendedor extends Usuario implements InterUsuario {
                     break;
                 case 0:
                     verificarEstoqueThread.interrupt();
+                    Thread sairThread = new Thread(() -> {
+                        try {
+                            System.out.print("Saindo da Conta");
+                            for(int i = 0; i < 3; i++){
+                                Thread.sleep(500);
+                                System.out.print(".");
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    sairThread.start();
+                    try {
+                        sairThread.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("");
                     return;
                 default:
                     System.out.println("Opção inválida");

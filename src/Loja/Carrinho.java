@@ -99,7 +99,7 @@ public class Carrinho {
         }
 
         itensCarrinho.clear();
-        System.out.println("Compra realizada com sucesso!");
+        System.out.println("Compra realizada com sucesso");
     }
 
     public static double getTotal() {
@@ -108,5 +108,9 @@ public class Carrinho {
             total += item.getPreco();
         }
         return total;
+    }
+
+    public static void limpar() {
+        itensCarrinho.clear();
     }
 }

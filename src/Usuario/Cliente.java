@@ -58,7 +58,26 @@ public class Cliente extends Usuario implements InterUsuario {
                     adicionarCredito(input.nextDouble());
                     break;
                 case 0:
-                    System.out.println("Saindo do menu de cliente...");
+                    Carrinho.limpar();
+                    Thread sairThread = new Thread(() -> {
+                        try {
+                            System.out.print("Saindo da Conta");
+                            for(int i = 0; i < 3; i++){
+                                Thread.sleep(500);
+                                System.out.print(".");
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    sairThread.start();
+                    try {
+                        sairThread.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("");
                     return;
 
                 default:
@@ -104,7 +123,7 @@ public class Cliente extends Usuario implements InterUsuario {
                         System.out.println("Compra paga com sucesso!");
                         System.out.println("Crédito restante: R$" + credito);
                     }
-                    return;
+                    break;
                 case 0:
                     return;
                 default:

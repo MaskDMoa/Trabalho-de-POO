@@ -67,8 +67,6 @@ public class Main {
                     default:
                         input.close();
 
-                        input.close();
-
                         Thread sairThread = new Thread(() -> {
                             try {
                                 System.out.print("Saindo");
