@@ -45,6 +45,30 @@ public class Vendedor extends Usuario implements InterUsuario {
             }
         }
 
+        Thread verificarEstoqueThread = new Thread(() -> {
+            while (true) {
+                try {
+                    // Aguarda 5 segundos entre verificações
+                    Thread.sleep(5000);
+
+                    // Lista os itens e verifica estoque
+                    var itens = ItemSQL.getItensLoja(idLoja);
+
+                    for (var item : itens) {
+                        if (item.getQuantidade() <= 0) {
+                            ItemSQL.deletarItem(item.getIdItem());
+                            System.out.println("Aviso: O item '" + item.getNome() + "' foi removido por estar sem estoque!");
+                        }
+                    }
+
+                } catch (InterruptedException e) {
+
+                    return;
+                }
+            }
+        });
+        verificarEstoqueThread.start();
+
         while(true) {
             System.out.println("Menu Vendedor:");
             System.out.println("1 - Gerenciar Itens");
@@ -58,6 +82,7 @@ public class Vendedor extends Usuario implements InterUsuario {
                     break;
                 case 2:
                     System.out.print("Tem certeza que deseja excluir a loja? (S/N): ");
+                    input.nextLine(); // limpa
                     String confirma = input.nextLine();
 
                     if (confirma.equalsIgnoreCase("S")) {
@@ -71,6 +96,7 @@ public class Vendedor extends Usuario implements InterUsuario {
                     }
                     break;
                 case 0:
+                    verificarEstoqueThread.interrupt();
                     return;
                 default:
                     System.out.println("Opção inválida");

@@ -10,15 +10,16 @@ public class Carrinho {
 
     private static List<Item> itensCarrinho = new ArrayList<>();
 
+
     // Adicionar item ao carrinho pelo ID
     public static void adicionar(int idItem) {
         Item item = buscarItemNoBanco(idItem);
 
         if (item != null) {
             itensCarrinho.add(item);
-            System.out.println("Item adicionado ao carrinho!");
+            System.out.println("Item adicionado ao carrinho");
         } else {
-            System.out.println("Item não encontrado!");
+            System.out.println("Item não encontrado");
         }
     }
 
@@ -41,7 +42,7 @@ public class Carrinho {
             return;
         }
 
-        System.out.println("\n--- Itens no Carrinho ---");
+        System.out.println("--- Itens no Carrinho ---");
         double total = 0.0;
 
         for (Item item : itensCarrinho) {
@@ -81,5 +82,31 @@ public class Carrinho {
         }
 
         return null;
+    }
+
+    public static void finalizarCompra() {
+        if (itensCarrinho.isEmpty()) {
+            System.out.println("Carrinho vazio! Não é possível finalizar a compra.");
+            return;
+        }
+
+        System.out.println("Finalizando compra...");
+
+        for (Item item : itensCarrinho) {
+            if (!ItemSQL.reduzirQuantidade(item.getIdItem())) {
+                System.out.println("Erro ao atualizar estoque do item: " + item.getNome());
+            }
+        }
+
+        itensCarrinho.clear();
+        System.out.println("Compra realizada com sucesso!");
+    }
+
+    public static double getTotal() {
+        double total = 0.0;
+        for (Item item : itensCarrinho) {
+            total += item.getPreco();
+        }
+        return total;
     }
 }

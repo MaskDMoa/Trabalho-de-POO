@@ -1,5 +1,6 @@
 package SQL_;
 
+import java.util.*;
 import Loja.Item;
 import java.sql.*;
 
@@ -108,5 +109,48 @@ public class ItemSQL {
         }
     }
 
+    public static boolean reduzirQuantidade(int idItem) {
+        String sql = "UPDATE itens SET quantidade = quantidade - 1 WHERE idItem = ? AND quantidade > 0";
+
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idItem);
+            int linhas = stmt.executeUpdate();
+
+            return linhas > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar quantidade: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static List<Item> getItensLoja(int idLoja) {
+        List<Item> itens = new ArrayList<>();
+        String sql = "SELECT * FROM itens WHERE idLoja = ?";
+
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idLoja);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                itens.add(new Item(
+                        rs.getInt("idItem"),
+                        rs.getString("nome"),
+                        rs.getString("descricao"),
+                        rs.getInt("quantidade"),
+                        rs.getDouble("preco"),
+                        idLoja
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return itens;
+    }
 
 }

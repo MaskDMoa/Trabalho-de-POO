@@ -5,29 +5,6 @@ import java.sql.*;
 
 public class LojaSQL {
 
-    public static Loja buscarLoja(int idUsuario) {
-        String sql = "SELECT * FROM loja WHERE idUsuario = ?";
-
-        try (Connection conn = Conexao.getConexao();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idUsuario);
-
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                int idLoja = rs.getInt("idLoja");
-                String nome = rs.getString("nome");
-
-                return new  Loja(idLoja, nome, idUsuario);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
     public static int buscarLojaUsuario(int idUsuario) {
         String sql = "SELECT * FROM loja WHERE idUsuario = ?";
@@ -54,7 +31,7 @@ public class LojaSQL {
         String sql = "INSERT INTO loja(nome, idUsuario) VALUES (?, ?)";
 
         try (Connection conn = Conexao.getConexao();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql,  Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, nome);
             stmt.setInt(2, idUsuario);
@@ -68,7 +45,7 @@ public class LojaSQL {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao criar loja!");
+            System.out.println("Erro ao criar loja: " + e.getMessage());
         }
         return -1;
     }

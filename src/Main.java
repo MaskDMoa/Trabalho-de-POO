@@ -1,6 +1,5 @@
 import java.util.*;
 
-import Loja.Loja;
 import SQL_.*;
 import Usuario.*;
 import Exception.InputException;
@@ -66,12 +65,28 @@ public class Main {
                         }
                         break;
                     default:
-                        System.out.println("Saindo.");
-                        System.out.println(".");
-                        System.out.println("..");
-                        System.out.println("...");
+                        input.close();
 
                         input.close();
+
+                        Thread sairThread = new Thread(() -> {
+                            try {
+                                System.out.print("Saindo");
+                                for(int i = 0; i < 3; i++){
+                                    Thread.sleep(500);
+                                    System.out.print(".");
+                                }
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                        sairThread.start();
+                        try {
+                            sairThread.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         return;
                 }
             }catch (InputMismatchException e) {

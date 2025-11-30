@@ -10,6 +10,13 @@ public class Cliente extends Usuario implements InterUsuario {
 
     Scanner input = new Scanner(System.in);
 
+    private double credito = 0.0;
+
+    public void adicionarCredito(double valor) {
+        this.credito += valor;
+        System.out.println("Crédito adicionado! Saldo atual: R$" + credito);
+    }
+
     public Cliente(int id, String nome, String email, String senha) {
         super(id, nome, email, senha);
     }
@@ -25,6 +32,8 @@ public class Cliente extends Usuario implements InterUsuario {
             System.out.println("--- Menu Cliente ---");
             System.out.println("1 - Listar Lojas");
             System.out.println("2 - Ver Itens de uma Loja");
+            System.out.println("3 - Ver Carrinho");
+            System.out.println("4 - Adicionar crédito");
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
 
@@ -44,6 +53,10 @@ public class Cliente extends Usuario implements InterUsuario {
                     gerenciar();
                     break;
 
+                case 4:
+                    System.out.print("Quanto deseja adicionar? R$");
+                    adicionarCredito(input.nextDouble());
+                    break;
                 case 0:
                     System.out.println("Saindo do menu de cliente...");
                     return;
@@ -81,7 +94,16 @@ public class Cliente extends Usuario implements InterUsuario {
                     Carrinho.listar();
                     break;
                 case 4:
+                    double total = Carrinho.getTotal();
 
+                    if (total > credito) {
+                        System.out.println("Saldo insuficiente! Total: R$" + total + " | Crédito: R$" + credito);
+                    } else {
+                        credito -= total;
+                        Carrinho.finalizarCompra();
+                        System.out.println("Compra paga com sucesso!");
+                        System.out.println("Crédito restante: R$" + credito);
+                    }
                     return;
                 case 0:
                     return;
